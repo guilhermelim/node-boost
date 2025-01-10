@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# Define arquivos staged (prontos para commit)
+# .husky/pre-commit
+stagedFiles=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+
+# Define arquivos editados (não necessariamente staged)
+changedFiles=$(git diff --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+
+# Função para aplicar Prettier e ESLint em arquivos
+run_tools() {
+  files=$1
+  if [ -n "$files" ]; then
+    echo "🛠️ Aplicando Prettier..."
+    prettier $files --write --ignore-unknown
+
+    echo "🔍 Aplicando ESLint..."
+    # eslint $files --fix
+
+    echo "✅ Atualizando índices do Git..."
+    git update-index --again
+
+    # Verifica o status dos testes
+    if [ $? -ne 0 ]; then
+      echo "❌ Testes falharam. Abortando o commit."
+      exit 1
+    fi
+  else
+    echo "⚠️ Nenhum arquivo encontrado para processar."
+  fi
+}
+
+# echo "🔄 Processando todos os arquivos modificados..."
+# run_tools "$changedFiles"
+
+echo "🔄 Processando arquivos staged..."
+run_tools "$stagedFiles"

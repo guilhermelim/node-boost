@@ -1,0 +1,67 @@
+{
+  "name": "node-boost",
+  "version": "1.0.0",
+  "description": "Template to configure Node.js projects with TypeScript and best practices.",
+  "main": "src/app.ts",
+  "type": "module",
+  "scripts": {
+    "preinstall": "bash ./scripts/preinstall/preinstall.sh",
+    "predev": ". ~/.nvm/nvm.sh && nvm use",
+    "dev": "tsx watch --env-file .env src/app.ts",
+    "start": "node --env-file .env build/app.js",
+    "build": "tsc",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "format:changed": "prettier --write --cache .",
+    "format:staged": "prettier $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --write --ignore-unknown",
+    "eslint:check": "eslint .",
+    "eslint:fix": "eslint . --fix",
+    "eslint:changed": "eslint --fix --max-warnings=0 $(git diff --name-only --diff-filter=ACMR | sed 's| |\\ |g')",
+    "eslint:staged": "eslint --fix --max-warnings=0 $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')",
+    "lint": "npm run format:check && npm run eslint:check",
+    "fix": "npm run format:fix && npm run eslint:fix",
+    "fix:changed": "npm run format:changed && npm run eslint:changed",
+    "fix:staged": "npm run format:staged && npm run eslint:staged",
+    "test": "npx tsc --noEmit --pretty && jest",
+    "test:watch": "npx tsc --noEmit --pretty && jest --watchAll",
+    "clean": "rm -rf build node_modules coverage .husky/_",
+    "update": "npx npm-check-updates -u && npm install",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guilhermelim/node-boost.git"
+  },
+  "keywords": [
+    "node",
+    "typescript",
+    "setup",
+    "eslint",
+    "prettier",
+    "editorconfig"
+  ],
+  "author": "guilhermelim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/guilhermelim/node-boost/issues"
+  },
+  "homepage": "https://github.com/guilhermelim/node-boost#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@swc/core": "^1.10.7",
+    "@swc/jest": "^0.2.37",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.5",
+    "eslint": "^9.17.0",
+    "eslint-config-flat-gitignore": "^1.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "prettier": "3.4.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.19.1"
+  }
+}

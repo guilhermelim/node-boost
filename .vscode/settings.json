@@ -1,0 +1,37 @@
+{
+  // format
+  "files.autoSave": "onFocusChange",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "editor.formatOnSave": true,
+
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // explorer
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "README.md": "LICENSE",
+    "package.json": "package-lock*, yarn.lock, tsconfig*, pnpm-lock*, bun.lockb, .nvmrc*, .env*, .gitignore, jest*",
+    ".editorconfig": ".prettierrc, eslint*",
+    "*.ts": "$(capture).spec.ts, $(capture).test.ts, $(capture).unit.spec.ts, $(capture).unit.test.ts, $(capture).integration.spec.ts, $(capture).integration.test.ts",
+    "*.js": "$(capture).spec.js, $(capture).test.js, $(capture).unit.spec.js, $(capture).unit.test.js, $(capture).integration.spec.js, $(capture).integration.test.js",
+    "*.component.ts": "$(capture).component.html, $(capture).component.scss, $(capture).module.ts, $(capture).component.spec.ts"
+  }
+}
