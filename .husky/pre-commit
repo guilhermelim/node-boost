@@ -1,37 +1,44 @@
 #!/bin/sh
 
-# Define arquivos staged (prontos para commit)
+# Define staged files (ready for commit)
 # .husky/pre-commit
 stagedFiles=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 
-# Define arquivos editados (não necessariamente staged)
+# Define changed files (not necessarily staged)
 changedFiles=$(git diff --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 
-# Função para aplicar Prettier e ESLint em arquivos
+# Function to apply Prettier and ESLint on files
 run_tools() {
   files=$1
   if [ -n "$files" ]; then
-    echo "🛠️ Aplicando Prettier..."
+    echo "🔍 Applying FSLint..."
+    npx tsx ./scripts/fs-lint/index.ts --fix
+    echo "\n"
+
+    echo "🛠️ Applying Prettier..."
     prettier $files --write --ignore-unknown
+    echo "\n"
 
-    echo "🔍 Aplicando ESLint..."
-    # eslint $files --fix
+    echo "🔍 Applying ESLint..."
+    eslint $files --fix
+    echo "\n"
 
-    echo "✅ Atualizando índices do Git..."
+    echo "✔ Updating Git indexes..."
     git update-index --again
+    echo "\n"
 
-    # Verifica o status dos testes
+    # Checks the test status
     if [ $? -ne 0 ]; then
-      echo "❌ Testes falharam. Abortando o commit."
+      echo "✘ Tests failed. Aborting commit."
       exit 1
     fi
   else
-    echo "⚠️ Nenhum arquivo encontrado para processar."
+    echo "⚠️ No files found to process."
   fi
 }
 
-# echo "🔄 Processando todos os arquivos modificados..."
+# echo "🔄 Processing all modified files..."
 # run_tools "$changedFiles"
 
-echo "🔄 Processando arquivos staged..."
+echo "🔄 Processing staged files..."
 run_tools "$stagedFiles"
